@@ -3,61 +3,67 @@ var formulario = document.querySelector("#form")
 formulario.onsubmit = function(e) {
 
   e.prevent();
-  
-  var n = formulario.elements[0]
-  var e = formulario.elements[1]
-  var na = formulario.elements[2]
+  // nombre de las variables no es claro  n= nombre , e= edad , na= nacionalidad
+  var nombre = formulario.elements[0].value;// se agrego avalue a la funcion y se cerro con ; 
+  var edad = formulario.elements[1].value;
+  var nacionalidad = formulario.elements[2].value;
 
-  var nombre = n.value
+  /*var nombre = n.value
   var edad = e.value
 
   var i = na.selectedIndex
-  var nacionalidad = na.options[i].value
+  var nacionalidad = na.options[i].value*/
   console.log(nombre, edad)
   console.log(nacionalidad)
-
+// se corrigio el if else
   if (nombre.length === 0) {
-    n.classList.add("error")
+    formulario.elements[0].classList.add("error");
+  } else {
+    formulario.elements[0].classList.remove("error");
   }
+
   if (edad < 18 || edad > 120) {
-    e.classList.add("error")
+    formulario.elements[1].classList.add("error");
+  } else {
+    formulario.elements[1].classList.remove("error");
   }
 
-if (nombre.length > 0 
-  && (edad > 18 
-    && edad < 120) ) {
-  agregarInvitado(nombre, edad, nacionalidad)
+  if (nombre.length > 0 && edad >= 18 && edad <= 120) {
+    agregarInvitado(nombre, edad, nacionalidad);
+    formulario.reset();
   }
-}
+};
 
-var botonBorrar = document.createElement("button")
+// Funciona de la line a 33 a la 53 correctamente
+/*var botonBorrar = document.createElement("button")
 botonBorrar.textContent = "Eliminar invitado"
-botonBorrar.id = "boton-borrar"
+botonBorrar.id = "boton-borrar"//
 var corteLinea = document.createElement("br")
 document.body.appendChild(corteLinea)
 document.body.appendChild(botonBorrar);
+*/
 
+// Función para agregar un invitado a la lista
 function agregarInvitado(nombre, edad, nacionalidad) {
-
+  var nacionalidadTexto = "";
+  
   if (nacionalidad === "ar") {
-    nacionalidad = "Argentina"
+    nacionalidadTexto = "Argentina";
+  } else if (nacionalidad === "mx") {
+    nacionalidadTexto = "Mexicana";
+  } else if (nacionalidad === "vnzl") {
+    nacionalidadTexto = "Venezolana";
+  } else if (nacionalidad === "per") {
+    nacionalidadTexto = "Peruana";
   }
-  else if (nacionalidad === "mx") {
-    nacionalidad = "Mexicana"
-  }
-  else if (nacionalidad === "vnzl") {
-    nacionalidad = "Venezolana"
-  }
-  else if (nacionalidad === "per") {
-    nacionalidad = "Peruana"
-  }
+
 
 var lista = document.getElementById("lista-de-invitados")
 
 var elementoLista = document.createElement("div")
-elementoLista.classList.added("elemento-lista")
+elementoLista.classList.add("elemento-lista")
 lista.appendChild(elementoLista)
-
+/* Esta repetido  en la linea 71
 var spanNombre = document.createElement("span")
 var inputNombre = document.createElement("input")
 var espacio = document.createElement("br")
@@ -65,9 +71,9 @@ spanNombre.textContent = "Nombre: "
 inputNombre.value = nombre 
 elementoLista.appendChild(spanNombre)
 elementoLista.appendChild(inputNombre)
-elementoLista.appendChild(espacio)
+elementoLista.appendChild(espacio) */
 
-function crearElemento(descripcion, valor) {
+function crearElemento(descripcion, nombre) {
 var spanNombre = document.createElement("span")
 var inputNombre = document.createElement("input")
 var espacio = document.createElement("br")
@@ -83,15 +89,14 @@ crearElemento("Edad", edad)
 crearElemento("Nacionalidad", nacionalidad)
 
 
-var botonBorrar = document.createElement("button")
-botonBorrar.textContent = "Eliminar invitado"
-botonBorrar.id = "boton-borrar"
-var corteLinea = document.createElement("br")
-elementoLista.appendChild(corteLinea)
+var botonBorrar = document.createElement("button");
+botonBorrar.textContent = "Eliminar invitado";
+botonBorrar.id = "boton-borrar";
+var corteLinea = document.createElement("br");
+elementoLista.appendChild(corteLinea);
 elementoLista.appendChild(botonBorrar);
 
- botonBorrar.onclick = function() {
-// this.parentNode.style.display = 'none';
-botonBorrar.parentNode.remove()
-  }
+botonBorrar.onclick = function() {
+  elementoLista.remove();
+  };
 }
